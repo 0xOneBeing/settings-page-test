@@ -22,5 +22,12 @@ export interface AvailableRolesItem {
   isActive: boolean;
 }
 
+export interface TabsItemsType {
+  key: string;
+  label: string;
+  children: React.ReactNode | string;
+}
+
 export type UsersTableDataType = UserTableItem[];
 export type AvailableRolesType = AvailableRolesItem[];
+export type TabsItemsTypeArray = TabsItemsType[];
