@@ -25,7 +25,12 @@ const style: React.CSSProperties = {
 };
 
 const columns: TableColumnsType<UserTableItem> = [
-  { title: "Name", dataIndex: "name" },
+  {
+    title: "Name",
+    dataIndex: "name",
+    sorter: (a, b) => a.name.localeCompare(b.name),
+    sortDirections: ["ascend", "descend"],
+  },
   { title: "Type", dataIndex: "type" },
   { title: "Date Created", dataIndex: "dateCreated" },
   {
@@ -226,7 +231,11 @@ export default function RolesTabUI() {
                           </div>
                         </div>
 
-                        {activeRoleValue === "super-admin" ? <CircleCheckBig strokeWidth={4} size={16} /> : <Circle size={16} />}
+                        {activeRoleValue === "super-admin" ? (
+                          <CircleCheckBig strokeWidth={4} size={16} />
+                        ) : (
+                          <Circle size={16} />
+                        )}
                       </div>
                     ),
                   },
@@ -254,7 +263,11 @@ export default function RolesTabUI() {
                           </div>
                         </div>
 
-                        {activeRoleValue === "developer-admin" ? <CircleCheckBig strokeWidth={4} size={16} /> : <Circle size={16} />}
+                        {activeRoleValue === "developer-admin" ? (
+                          <CircleCheckBig strokeWidth={4} size={16} />
+                        ) : (
+                          <Circle size={16} />
+                        )}
                       </div>
                     ),
                   },
@@ -282,7 +295,11 @@ export default function RolesTabUI() {
                           </div>
                         </div>
 
-                        {activeRoleValue === "support-admin" ? <CircleCheckBig strokeWidth={4} size={16} /> : <Circle size={16} />}
+                        {activeRoleValue === "support-admin" ? (
+                          <CircleCheckBig strokeWidth={4} size={16} />
+                        ) : (
+                          <Circle size={16} />
+                        )}
                       </div>
                     ),
                   },
