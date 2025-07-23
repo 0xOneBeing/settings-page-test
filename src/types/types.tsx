@@ -28,6 +28,15 @@ export interface TabsItemsType {
   children: React.ReactNode | string;
 }
 
+export interface LoggedInUserType {
+  firstName: string;
+  lastName: string;
+  email: string;
+  imageSrc: string;
+  activeRoles: object[];
+}
+
 export type UsersTableDataType = UserTableItem[];
 export type AvailableRolesType = AvailableRolesItem[];
 export type TabsItemsTypeArray = TabsItemsType[];
+export type LoggedInUserTypeArray = LoggedInUserType[];

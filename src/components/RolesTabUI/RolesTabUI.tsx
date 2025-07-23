@@ -3,7 +3,8 @@ import { Avatar, Button, Flex, Input, Radio, Table, Tag } from "antd";
 import type { RadioChangeEvent, TableColumnsType, TableProps } from "antd";
 import {
   Check,
-  CircleDot,
+  Circle,
+  CircleCheckBig,
   CloudDownload,
   X,
   Mail,
@@ -225,7 +226,7 @@ export default function RolesTabUI() {
                           </div>
                         </div>
 
-                        <CircleDot size={12} />
+                        {activeRoleValue === "super-admin" ? <CircleCheckBig strokeWidth={4} size={16} /> : <Circle size={16} />}
                       </div>
                     ),
                   },
@@ -253,7 +254,7 @@ export default function RolesTabUI() {
                           </div>
                         </div>
 
-                        <CircleDot size={12} />
+                        {activeRoleValue === "developer-admin" ? <CircleCheckBig strokeWidth={4} size={16} /> : <Circle size={16} />}
                       </div>
                     ),
                   },
@@ -281,7 +282,7 @@ export default function RolesTabUI() {
                           </div>
                         </div>
 
-                        <CircleDot size={12} />
+                        {activeRoleValue === "support-admin" ? <CircleCheckBig strokeWidth={4} size={16} /> : <Circle size={16} />}
                       </div>
                     ),
                   },

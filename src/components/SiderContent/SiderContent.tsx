@@ -2,6 +2,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Menu } from "antd";
 import { LogOut } from "lucide-react";
 import { menuItems } from "../../data/menuItems";
+import { loggedInUser } from "../../data/loggedInUser";
 
 export default function SiderContent() {
   return (
@@ -14,7 +15,7 @@ export default function SiderContent() {
       <div className="flex items-center justify-center px-3 my-6 !mx-auto">
         <Input
           size="large"
-          placeholder="Olivia Rhye"
+          placeholder={loggedInUser?.firstName + " " + loggedInUser?.lastName}
           prefix={<SearchOutlined style={{ fontSize: "20px" }} />}
         />
       </div>
@@ -35,8 +36,11 @@ export default function SiderContent() {
           Check out the new dashboard view. Pages now load faster.
         </p>
 
-        <div className="w-[215] h-[136] rounded-4xl bg-[url('/new_feature_graphics.jpg')]">
-          <img src="/new_feature_graphics.jpg" className="object-contain" />
+        <div className="w-[215] h-[136]">
+          <img
+            src="/new_feature_graphics.jpg"
+            className=" rounded-2xl object-contain"
+          />
         </div>
       </div>
 
@@ -47,15 +51,17 @@ export default function SiderContent() {
       <div className="flex items-center justify-center">
         <div className="flex gap-5 items-start">
           <img
-            alt="Olivia Rhye"
-            src="/olivia-rhye.jpg"
+            alt={loggedInUser?.firstName + " " + loggedInUser?.lastName}
+            src={loggedInUser?.imageSrc}
             className="rounded-full w-10 h-10 object-contain"
           />
 
           <div>
-            <h1 className="text-sm text-[var(--grey-900)] mb-0">Olivia Rhye</h1>
+            <h1 className="text-sm text-[var(--grey-900)] mb-0">
+              {loggedInUser?.firstName} {loggedInUser?.lastName}
+            </h1>
             <p className="text-sm text-[var(--grey-500)]">
-              olivia@untitleui.com
+              {loggedInUser?.email}
             </p>
           </div>
 
