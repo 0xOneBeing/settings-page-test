@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import {
   ChartNoAxesColumn,
@@ -7,12 +7,22 @@ import {
   Layers,
   LifeBuoy,
   LogOut,
+  Menu as MenuIcon,
   Settings,
   SquareCheckBig,
   Users,
 } from "lucide-react";
-import type { MenuProps, TabsProps } from "antd";
-import { Button, ConfigProvider, Input, Layout, Menu, Tabs } from "antd";
+import type { MenuProps } from "antd";
+import {
+  Button,
+  ConfigProvider,
+  Drawer,
+  Input,
+  Layout,
+  Menu,
+  Radio,
+} from "antd";
+import { useState } from "react";
 import RolesTabUI from "./components/RolesTabUI/RolesTabUI";
 
 const { Content, Sider } = Layout;
@@ -71,11 +81,7 @@ const menuItems: MenuProps["items"] = [
   },
 ];
 
-const onChange = (key: string) => {
-  console.log(key);
-};
-
-const tabsItems: TabsProps["items"] = [
+const tabsItems = [
   {
     key: "my-details",
     label: "My details",
@@ -124,6 +130,17 @@ const tabsItems: TabsProps["items"] = [
 ];
 
 const App: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<string>("roles");
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [drawerVisible, setDrawerVisible] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const isMobile = windowWidth < 1024;
   return (
     <ConfigProvider
       theme={{
@@ -163,7 +180,90 @@ const App: React.FC = () => {
       }}
     >
       <Layout hasSider>
-        <Sider width={279} style={siderStyle}>
+        {!isMobile && (
+          <Sider width={279} style={siderStyle}>
+            <div className="brand flex items-center justify-center gap-2 mt-4 px-5 text-center">
+              <img src="/logo.svg" alt="brand-logo" />
+              <p className="brand-text text-xl text-[var(--grey-900)]">
+                Untitled UI
+              </p>
+            </div>
+
+            <div className="flex items-center justify-center px-3 my-6 !mx-auto">
+              <Input
+                size="large"
+                placeholder="Olivia Rhye"
+                prefix={<SearchOutlined style={{ fontSize: "20px" }} />}
+              />
+            </div>
+
+            <Menu
+              theme="dark"
+              mode="inline"
+              items={menuItems}
+              defaultSelectedKeys={["settings"]}
+            />
+
+            <div className="my-6 px-4 py-5 rounded-2xl bg-[var(--grey-50)]">
+              <h1 className="text-sm font-[500] text-[var(--grey-900)] mb-2">
+                New features available!
+              </h1>
+
+              <p className="text-sm font-light text-gray-500 mb-4">
+                Check out the new dashboard view. Pages now load faster.
+              </p>
+
+              <div className="w-[215] h-[136] rounded-4xl bg-[url('/new_feature_graphics.jpg')]">
+                <img
+                  src="/new_feature_graphics.jpg"
+                  className="object-contain"
+                />
+              </div>
+            </div>
+
+            <div className="px-3 mb-6 !mx-auto">
+              <hr className="border-gray-200" />
+            </div>
+
+            <div className="flex items-center justify-center">
+              <div className="flex gap-5 items-start">
+                <img
+                  alt="Olivia Rhye"
+                  src="/olivia-rhye.jpg"
+                  className="rounded-full w-10 h-10 object-contain"
+                />
+
+                <div>
+                  <h1 className="text-sm text-[var(--grey-900)] mb-0">
+                    Olivia Rhye
+                  </h1>
+                  <p className="text-sm text-[var(--grey-500)]">
+                    olivia@untitleui.com
+                  </p>
+                </div>
+
+                <Button
+                  type={undefined}
+                  icon={<LogOut size={16} />}
+                  style={{
+                    border: 0,
+                    color: "var(--grey-500)",
+                    backgroundColor: "var(--white-color)",
+                  }}
+                />
+              </div>
+            </div>
+          </Sider>
+        )}
+
+        <Drawer
+          placement="left"
+          closable={false}
+          onClose={() => setDrawerVisible(false)}
+          open={isMobile && drawerVisible}
+          width={279}
+          bodyStyle={{ padding: 0 }}
+        >
           <div className="brand flex items-center justify-center gap-2 mt-4 px-5 text-center">
             <img src="/logo.svg" alt="brand-logo" />
             <p className="brand-text text-xl text-[var(--grey-900)]">
@@ -195,8 +295,8 @@ const App: React.FC = () => {
               Check out the new dashboard view. Pages now load faster.
             </p>
 
-            <div className="w-[215] h-[136] rounded-2xl bg-[url('/new_feature_graphics.jpg')]">
-              <img src="/new_feature_graphics.jpg" className="object-contain" />
+            <div className="w-[215] h-[136] !rounded-4xl bg-[url('/new_feature_graphics.jpg')]">
+              <img src="/new_feature_graphics.jpg" className="object-cover" />
             </div>
           </div>
 
@@ -232,7 +332,7 @@ const App: React.FC = () => {
               />
             </div>
           </div>
-        </Sider>
+        </Drawer>
 
         <Layout>
           <Content style={{ overflow: "initial" }}>
@@ -241,20 +341,41 @@ const App: React.FC = () => {
                 padding: 32,
               }}
             >
-              <div className="heading mb-6">
-                <h1 className="text-3xl text-[var(--grey-900)] font-[500] mb-1">
-                  Settings
-                </h1>
-                <p className="text-base text-[var(--grey-500)] font-normal mb-0">
-                  Manage your team preferrences here
-                </p>
+              <div className="flex items-center justify-between mb-8">
+                <div className="heading">
+                  <h1 className="text-3xl text-[var(--grey-900)] font-[500] mb-1">
+                    Settings
+                  </h1>
+                  <p className="text-base text-[var(--grey-500)] font-normal mb-0">
+                    Manage your team preferrences here
+                  </p>
+                </div>
+
+                {isMobile && (
+                  <Button
+                    type="text"
+                    icon={<MenuIcon />}
+                    onClick={() => setDrawerVisible(true)}
+                  />
+                )}
               </div>
 
-              <Tabs
-                items={tabsItems}
-                onChange={onChange}
-                defaultActiveKey="roles"
-              />
+              <div>
+                <Radio.Group
+                  block
+                  optionType="button"
+                  defaultValue="roles"
+                  className="!w-full !overflow-x-scroll"
+                  options={tabsItems.map((item) => ({
+                    label: item.label,
+                    value: item.key,
+                  }))}
+                  onChange={(e) => setActiveTab(e.target.value)}
+                />
+                <div className="mt-6">
+                  {tabsItems.find((item) => item.key === activeTab)?.children}
+                </div>
+              </div>
             </section>
           </Content>
         </Layout>

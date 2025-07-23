@@ -1,7 +1,20 @@
-import { useState } from "react";
-import { Button, Input, Radio } from "antd";
-import type { RadioChangeEvent } from "antd";
-import { CircleDot, CloudDownload, Mail, Plus, Users } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Avatar, Button, Flex, Input, Radio, Table, Tag } from "antd";
+import type { RadioChangeEvent, TableColumnsType, TableProps } from "antd";
+import {
+  Check,
+  CircleDot,
+  CloudDownload,
+  X,
+  Mail,
+  Plus,
+  Users,
+} from "lucide-react";
+import { usersTable } from "../../data/mockUsersdata";
+import type { UserTableItem } from "../../types/types";
+
+type TableRowSelection<T extends object = object> =
+  TableProps<T>["rowSelection"];
 
 const style: React.CSSProperties = {
   display: "flex",
@@ -10,9 +23,92 @@ const style: React.CSSProperties = {
   gap: 8,
 };
 
+const columns: TableColumnsType<UserTableItem> = [
+  { title: "Name", dataIndex: "name" },
+  { title: "Type", dataIndex: "type" },
+  { title: "Date Created", dataIndex: "dateCreated" },
+  {
+    title: "Status",
+    dataIndex: "status",
+    render: (status) => (
+      <div className="flex justify-center items-center w-full">
+        {status === "Active" ? (
+          <Tag
+            color="success"
+            icon={<Check size={16} />}
+            className="!flex !items-center !justify-between !gap-1 !rounded-4xl !px-3"
+          >
+            {status}
+          </Tag>
+        ) : (
+          <Tag
+            icon={<X size={16} />}
+            color="var(--orange-color)"
+            className="!flex !items-center !justify-between !gap-1 !rounded-4xl !px-3"
+          >
+            {status}
+          </Tag>
+        )}
+      </div>
+    ),
+  },
+  {
+    title: "Role users",
+    dataIndex: "roleUsers",
+    render: (roleUsers, record) => (
+      <div className="flex items-center">
+        <Avatar.Group
+          maxCount={3}
+          maxStyle={{ color: "#f56a00", backgroundColor: "#fde3cf" }}
+        >
+          {roleUsers.map((url: string, index: number) => (
+            <Avatar key={index} src={url} />
+          ))}
+        </Avatar.Group>
+        <span className="ml-2">+{record.userCount}</span>
+      </div>
+    ),
+  },
+  {
+    title: <>&nbsp;</>,
+    key: "action",
+    render: () => <CloudDownload size={16} />,
+  },
+];
+
 export default function RolesTabUI() {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [connectAltEmail, setConnectAltEmail] = useState("alternativeEmail");
   const [activeRoleValue, setActiveRoleValue] = useState("super-admin");
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const start = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setSelectedRowKeys([]);
+      setLoading(false);
+    }, 1000);
+  };
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection: TableRowSelection<UserTableItem> = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  const hasSelected = selectedRowKeys.length > 0;
 
   const onConnectedEmailChange = (e: RadioChangeEvent) => {
     setConnectAltEmail(e.target.value);
@@ -75,7 +171,7 @@ export default function RolesTabUI() {
                           size="large"
                           prefix={<Mail size={16} />}
                           placeholder="billing@untitledui.com"
-                          style={{ width: 400 }}
+                          style={{ width: windowWidth < 1024 ? "100%" : 400 }}
                         />
                       )}
                     </>
@@ -200,18 +296,48 @@ export default function RolesTabUI() {
         </div>
 
         <div className="mt-8 mb-12">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col lg:flex-row justify-center lg:justify-between items-center">
             <h1 className="text-lg font-[500] text-[var(--grey-900)]">
               User Roles
             </h1>
 
-            <Button
-              type="default"
-              icon={<CloudDownload size={16} />}
-              className="!rounded-md border border-gray-400"
-            >
-              Download all
-            </Button>
+            <div className="flex items-center gap-1">
+              {hasSelected ? (
+                <Flex align="center" gap="middle">
+                  <Button
+                    type="primary"
+                    onClick={start}
+                    disabled={!hasSelected}
+                    loading={loading}
+                  >
+                    {`Download ${selectedRowKeys.length} ${
+                      selectedRowKeys.length === 1 ? "item" : "items"
+                    }`}
+                  </Button>
+                </Flex>
+              ) : null}
+
+              <Button
+                type="default"
+                icon={<CloudDownload size={16} />}
+                className="!rounded-md border border-gray-400"
+              >
+                Download all
+              </Button>
+            </div>
+          </div>
+
+          <div className="roles-table">
+            <Flex gap="middle" vertical>
+              <Table<UserTableItem>
+                columns={columns}
+                pagination={false}
+                className="shadow-lg"
+                dataSource={usersTable}
+                rowSelection={rowSelection}
+                scroll={{ x: "max-content" }}
+              />
+            </Flex>
           </div>
         </div>
       </div>

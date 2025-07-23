@@ -11,7 +11,7 @@ export interface UserTableItem {
   type: "DEFAULT" | "CUSTOM" | "SYSTEM-CUSTOM";
   dateCreated: string;
   status: "Active" | "Inactive";
-  users: string[];
+  roleUsers: string[];
   userCount: number;
 }
 

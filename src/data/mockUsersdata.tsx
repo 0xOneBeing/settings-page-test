@@ -7,7 +7,7 @@ export const usersTable: UsersTableDataType = [
     type: "DEFAULT",
     dateCreated: "Jan 1, 2023",
     status: "Active",
-    users: [
+    roleUsers: [
       "https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=32&h=32&fit=crop&crop=face",
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face",
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face",
@@ -20,7 +20,7 @@ export const usersTable: UsersTableDataType = [
     type: "DEFAULT",
     dateCreated: "Feb 1, 2023",
     status: "Active",
-    users: [
+    roleUsers: [
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face",
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face",
     ],
@@ -32,7 +32,7 @@ export const usersTable: UsersTableDataType = [
     type: "DEFAULT",
     dateCreated: "Feb 1, 2023",
     status: "Active",
-    users: [
+    roleUsers: [
       "https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=32&h=32&fit=crop&crop=face",
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face",
     ],
@@ -44,7 +44,7 @@ export const usersTable: UsersTableDataType = [
     type: "CUSTOM",
     dateCreated: "Mar 1, 2023",
     status: "Active",
-    users: [
+    roleUsers: [
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face",
     ],
     userCount: 2,
@@ -55,7 +55,7 @@ export const usersTable: UsersTableDataType = [
     type: "CUSTOM",
     dateCreated: "Apr 1, 2023",
     status: "Inactive",
-    users: [
+    roleUsers: [
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face",
     ],
     userCount: 2,
@@ -66,7 +66,7 @@ export const usersTable: UsersTableDataType = [
     type: "SYSTEM-CUSTOM",
     dateCreated: "May 1, 2023",
     status: "Active",
-    users: [
+    roleUsers: [
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face",
     ],
     userCount: 3,
@@ -77,7 +77,7 @@ export const usersTable: UsersTableDataType = [
     type: "SYSTEM-CUSTOM",
     dateCreated: "Jun 1, 2023",
     status: "Active",
-    users: [
+    roleUsers: [
       "https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=32&h=32&fit=crop&crop=face",
     ],
     userCount: 2,
