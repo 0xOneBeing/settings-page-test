@@ -11,8 +11,9 @@ import {
   SquareCheckBig,
   Users,
 } from "lucide-react";
-import type { MenuProps } from "antd";
-import { Button, ConfigProvider, Input, Layout, Menu } from "antd";
+import type { MenuProps, TabsProps } from "antd";
+import { Button, ConfigProvider, Input, Layout, Menu, Tabs } from "antd";
+import RolesTabUI from "./components/RolesTabUI/RolesTabUI";
 
 const { Content, Sider } = Layout;
 
@@ -27,7 +28,7 @@ const siderStyle: React.CSSProperties = {
   scrollbarGutter: "stable",
 };
 
-const items2: MenuProps["items"] = [
+const menuItems: MenuProps["items"] = [
   {
     key: "home",
     icon: <House size={16} />,
@@ -67,6 +68,58 @@ const items2: MenuProps["items"] = [
     key: "settings",
     icon: <Settings size={16} />,
     label: "Settings",
+  },
+];
+
+const onChange = (key: string) => {
+  console.log(key);
+};
+
+const tabsItems: TabsProps["items"] = [
+  {
+    key: "my-details",
+    label: "My details",
+    children: "Content of My details",
+  },
+  {
+    key: "profile",
+    label: "Profile",
+    children: "Content of Profile",
+  },
+  {
+    key: "password",
+    label: "Password",
+    children: "Content of Password",
+  },
+  {
+    key: "team",
+    label: "Team",
+    children: "Content of Team",
+  },
+  {
+    key: "plan",
+    label: "Plan",
+    children: "Content of Plan",
+  },
+  {
+    key: "roles",
+    label: "Roles",
+    children: <RolesTabUI />,
+  },
+  {
+    key: "notifications",
+    label: "Notifications",
+    children: "Content of Notifications",
+  },
+  {
+    key: "integrations",
+    label: "Integrations",
+    children: "Content of Integrations",
+  },
+  {
+    key: "api",
+    label: "API",
+    children: "Content of API",
   },
 ];
 
@@ -129,7 +182,7 @@ const App: React.FC = () => {
           <Menu
             theme="dark"
             mode="inline"
-            items={items2}
+            items={menuItems}
             defaultSelectedKeys={["settings"]}
           />
 
@@ -196,6 +249,12 @@ const App: React.FC = () => {
                   Manage your team preferrences here
                 </p>
               </div>
+
+              <Tabs
+                items={tabsItems}
+                onChange={onChange}
+                defaultActiveKey="roles"
+              />
             </section>
           </Content>
         </Layout>
