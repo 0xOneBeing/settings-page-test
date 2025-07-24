@@ -1,10 +1,13 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Menu } from "antd";
+import { Button, Input, Menu, Tooltip } from "antd";
 import { LogOut } from "lucide-react";
 import { menuItems } from "../../data/menuItems";
 import { loggedInUser } from "../../data/loggedInUser";
+import { useState } from "react";
 
 export default function SiderContent() {
+  const [showNewFeatureContainer, setShowNewFeatureContainer] = useState(true);
+
   return (
     <section className="sider-content">
       <div className="brand flex items-center justify-center gap-2 mt-4 px-5 text-center">
@@ -27,24 +30,38 @@ export default function SiderContent() {
         defaultSelectedKeys={["settings"]}
       />
 
-      <div className="my-6 px-4 py-5 rounded-2xl bg-[var(--grey-50)]">
-        <h1 className="text-sm font-[500] text-[var(--grey-900)] mb-2">
-          New features available!
-        </h1>
+      {showNewFeatureContainer && (
+        <div className=" mt-6 px-4 p-5 rounded-2xl bg-[var(--grey-50)] new-feature-container">
+          <h1 className="text-sm font-[500] text-[var(--grey-900)] mb-1">
+            New features available!
+          </h1>
 
-        <p className="text-sm font-light text-gray-500 mb-4">
-          Check out the new dashboard view. Pages now load faster.
-        </p>
+          <p className="text-sm font-light text-gray-500 mb-4">
+            Check out the new dashboard view. Pages now load faster.
+          </p>
 
-        <div className="w-[215] h-[136]">
           <img
-            src="/new_feature_graphics.jpg"
-            className=" rounded-2xl object-contain"
+            src="/new_feature_graphics.svg"
+            className="w-full mb-6 rounded-2xl object-contain"
           />
-        </div>
-      </div>
 
-      <div className="px-3 mb-6 !mx-auto">
+          <div className="flex items-center gap-3 text-sm font-[500]">
+            <p
+              onClick={() => setShowNewFeatureContainer(false)}
+              className="text-[var(--grey-500)] cursor-pointer hover:underline"
+            >
+              Dismiss
+            </p>
+            <Tooltip title="Our dashboard has been revamped amongst other things!">
+              <p className="text-[var(--primary-color)] cursor-pointer hover:underline">
+                What's new
+              </p>
+            </Tooltip>
+          </div>
+        </div>
+      )}
+
+      <div className="px-3 my-6 !mx-auto">
         <hr className="border-gray-200" />
       </div>
 
